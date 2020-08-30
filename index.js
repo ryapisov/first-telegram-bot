@@ -19,38 +19,73 @@ const bot = new Telegram(TOKEN, setting)
 bot.on('message', (msg)=>{
   const {id} = msg.chat
 
-  if(msg.text === 'Закрыть'){
-    bot.sendMessage(id, 'закрываю клавиатуру', {
-      reply_markup: {
-        remove_keyboard: true
-      }
-    })
-  } else if(msg.text === 'Ответить'){
-    bot.sendMessage(id, 'отвечаю ...', {
-      reply_markup: {
-        force_reply: true
-      }
-    })
-  } else {
-    bot.sendMessage(id, 'клавиатура', {
-      reply_markup:{
-        keyboard:[
-          [{
-            text:"Отправить местоположение",
-            request_location: true
-          }],
-          ['Ответить', 'Закрыть'],
-          [{
-            text: "Отправить контакт",
-            request_contact: true
-          }]
+  bot.sendMessage(id, 'Inline keyboard', {
+    reply_markup:{
+      inline_keyboard:[
+        [
+          {
+            text:"Google",
+            url: 'https://google.com'
+          }
         ],
-        one_time_keyboard: true
-      }
-    })
-  }
+        [
+          {
+            text:"First",
+            callback_data: 'firstMy'
+          },
+          {
+            text:"Second",
+            callback_data: 'secondMy'
+          }
+        ],
+      ]
+    }
+  })
 })
 
+bot.on('callback_query', query => {
+ bot.sendMessage(query.message.chat.id, debug(query))
+// modal
+  bot.answerCallbackQuery(query.id, `${query.data}`)
+})
+
+
+
+// bot.on('message', (msg)=>{
+//   const {id} = msg.chat
+//
+//   if(msg.text === 'Закрыть'){
+//     bot.sendMessage(id, 'закрываю клавиатуру', {
+//       reply_markup: {
+//
+//         remove_keyboard: true
+//       }
+//     })
+//   } else if(msg.text === 'Ответить'){
+//     bot.sendMessage(id, 'отвечаю ...', {
+//       reply_markup: {
+//         force_reply: true
+//       }
+//     })
+//   } else {
+//     bot.sendMessage(id, 'клавиатура', {
+//       reply_markup:{
+//         keyboard:[
+//           [{
+//             text:"Отправить местоположение",
+//             request_location: true
+//           }],
+//           ['Ответить', 'Закрыть'],
+//           [{
+//             text: "Отправить контакт",
+//             request_contact: true
+//           }]
+//         ],
+//         one_time_keyboard: true
+//       }
+//     })
+//   }
+// })
 
 
 
