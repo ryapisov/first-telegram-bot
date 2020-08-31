@@ -17,15 +17,39 @@ const setting = {
 
 const bot = new Telegram(TOKEN, setting)
 
-bot.onText(/\/s1/, (msg)=>{
-  bot.sendSticker(msg.chat.id, './files/sticker.webp')
+bot.onText(/\/v1/, (msg)=>{
+  const chatId = msg.chat.id
+  bot.sendMessage(chatId, 'Sending video...')
+  bot.sendVideo(chatId, `http://techslides.com/demos/sample-videos/small.mp4`)
 })
 
-bot.onText(/\/s2/, (msg)=>{
-  fs.readFile(__dirname + "/files/sticker.webp", (err, sticker)=>{
-    bot.sendSticker(msg.chat.id, sticker)
+bot.onText(/\/v2/, (msg)=>{
+  const chatId = msg.chat.id
+  bot.sendMessage(chatId, 'Sending video...')
+  bot.sendVideo(chatId, `./files/video.mp4`)
+})
+
+bot.onText(/\/v3/, (msg)=>{
+  const chatId = msg.chat.id
+  bot.sendMessage(chatId, 'Sending video...')
+
+  fs.readFile(__dirname + "/files/video.mp4", (err, video)=>{
+    bot.sendVideoNote(chatId, video)
   })
 })
+
+
+// =============================================================
+
+// bot.onText(/\/s1/, (msg)=>{
+//   bot.sendSticker(msg.chat.id, './files/sticker.webp')
+// })
+//
+// bot.onText(/\/s2/, (msg)=>{
+//   fs.readFile(__dirname + "/files/sticker.webp", (err, sticker)=>{
+//     bot.sendSticker(msg.chat.id, sticker)
+//   })
+// })
 
 // =============================================================
 
