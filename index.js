@@ -17,27 +17,33 @@ const setting = {
 
 const bot = new Telegram(TOKEN, setting)
 
-bot.onText(/\/v1/, (msg)=>{
+bot.onText(/\/loc/, (msg)=>{
   const chatId = msg.chat.id
-  bot.sendMessage(chatId, 'Sending video...')
-  bot.sendVideo(chatId, `http://techslides.com/demos/sample-videos/small.mp4`)
+  bot.sendLocation(chatId, 51.277841, 30.210990)
 })
 
-bot.onText(/\/v2/, (msg)=>{
-  const chatId = msg.chat.id
-  bot.sendMessage(chatId, 'Sending video...')
-  bot.sendVideo(chatId, `./files/video.mp4`)
-})
-
-bot.onText(/\/v3/, (msg)=>{
-  const chatId = msg.chat.id
-  bot.sendMessage(chatId, 'Sending video...')
-
-  fs.readFile(__dirname + "/files/video.mp4", (err, video)=>{
-    bot.sendVideoNote(chatId, video)
-  })
-})
-
+// =============================================================
+//
+// bot.onText(/\/v1/, (msg)=>{
+//   const chatId = msg.chat.id
+//   bot.sendMessage(chatId, 'Sending video...')
+//   bot.sendVideo(chatId, `http://techslides.com/demos/sample-videos/small.mp4`)
+// })
+//
+// bot.onText(/\/v2/, (msg)=>{
+//   const chatId = msg.chat.id
+//   bot.sendMessage(chatId, 'Sending video...')
+//   bot.sendVideo(chatId, `./files/video.mp4`)
+// })
+//
+// bot.onText(/\/v3/, (msg)=>{
+//   const chatId = msg.chat.id
+//   bot.sendMessage(chatId, 'Sending video...')
+//
+//   fs.readFile(__dirname + "/files/video.mp4", (err, video)=>{
+//     bot.sendVideoNote(chatId, video)
+//   })
+// })
 
 // =============================================================
 
