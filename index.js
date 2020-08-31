@@ -16,40 +16,64 @@ const setting = {
 
 const bot = new Telegram(TOKEN, setting)
 
-bot.on('message', (msg)=>{
-  const {id} = msg.chat
+  bot.on('inline_query', (query)=>{
 
-  bot.sendMessage(id, 'Inline keyboard', {
-    reply_markup:{
-      inline_keyboard:[
-        [
-          {
-            text:"Google",
-            url: 'https://google.com'
-          }
-        ],
-        [
-          {
-            text:"First",
-            callback_data: 'firstMy'
-          },
-          {
-            text:"Second",
-            callback_data: 'secondMy'
-          }
-        ],
-      ]
+    const results = []
+
+    for(let i=0; i<5; i++){
+      results.push({
+        type: 'article',
+        id: i.toString(),
+        title: 'Title ' + i,
+        input_message_content:{
+          message_text: `Article #${i+1}`
+        }
+      })
     }
+
+    bot.answerInlineQuery(query.id, results, {
+      cache_time: 0
+    })
   })
-})
-
-bot.on('callback_query', query => {
- bot.sendMessage(query.message.chat.id, debug(query))
-// modal
-  bot.answerCallbackQuery(query.id, `${query.data}`)
-})
 
 
+// =============================================================
+
+// bot.on('message', (msg)=>{
+//   const {id} = msg.chat
+//
+//   bot.sendMessage(id, 'Inline keyboard', {
+//     reply_markup:{
+//       inline_keyboard:[
+//         [
+//           {
+//             text:"Google",
+//             url: 'https://google.com'
+//           }
+//         ],
+//         [
+//           {
+//             text:"First",
+//             callback_data: 'firstMy'
+//           },
+//           {
+//             text:"Second",
+//             callback_data: 'secondMy'
+//           }
+//         ],
+//       ]
+//     }
+//   })
+// })
+//
+// bot.on('callback_query', query => {
+//  bot.sendMessage(query.message.chat.id, debug(query))
+// // modal
+//   bot.answerCallbackQuery(query.id, `${query.data}`)
+// })
+
+
+// =============================================================
 
 // bot.on('message', (msg)=>{
 //   const {id} = msg.chat
@@ -87,7 +111,7 @@ bot.on('callback_query', query => {
 //   }
 // })
 
-
+// =============================================================
 
 // const {id} = msg.chat
 // const html = `
