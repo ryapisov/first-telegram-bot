@@ -17,22 +17,33 @@ const setting = {
 
 const bot = new Telegram(TOKEN, setting)
 
-bot.onText(/\/doc1/, (msg)=>{
-  bot.sendDocument(msg.chat.id, './files/document.xlsx')
+bot.onText(/\/s1/, (msg)=>{
+  bot.sendSticker(msg.chat.id, './files/sticker.webp')
 })
 
-bot.onText(/\/doc2/, msg=>{
-  bot.sendMessage(msg.chat.id, 'Загрузка началась')
-
-  fs.readFile(__dirname + "/files/document.xlsx", (err, file)=>{
-    bot.sendDocument(msg.chat.id, file, {
-      caption: 'доп.текст'
-    }).then(()=>{
-      bot.sendMessage(msg.chat.id, 'Загрузка закончилась')
-    })
+bot.onText(/\/s2/, (msg)=>{
+  fs.readFile(__dirname + "/files/sticker.webp", (err, sticker)=>{
+    bot.sendSticker(msg.chat.id, sticker)
   })
 })
 
+// =============================================================
+
+// bot.onText(/\/doc1/, (msg)=>{
+//   bot.sendDocument(msg.chat.id, './files/document.xlsx')
+// })
+//
+// bot.onText(/\/doc2/, msg=>{
+//   bot.sendMessage(msg.chat.id, 'Загрузка началась')
+//
+//   fs.readFile(__dirname + "/files/document.xlsx", (err, file)=>{
+//     bot.sendDocument(msg.chat.id, file, {
+//       caption: 'доп.текст'
+//     }).then(()=>{
+//       bot.sendMessage(msg.chat.id, 'Загрузка закончилась')
+//     })
+//   })
+// })
 
 // =============================================================
 
