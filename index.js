@@ -17,21 +17,30 @@ const setting = {
 
 const bot = new Telegram(TOKEN, setting)
 
-bot.onText(/\/audio/, msg =>{
-  bot.sendAudio(msg.chat.id, fs.readFileSync(__dirname + "/files/muz.mp3"))
+bot.onText(/\/doc1/, (msg)=>{
+  bot.sendDocument(msg.chat.id, './files/document.xlsx')
 })
 
-bot.onText(/\/audio2/, msg =>{
-  bot.sendMessage(msg.chat.id, 'Start audio uploading ...')
-
-  fs.readFile(__dirname + "/files/muz.mp3", (err, data)=>{
-    bot.sendAudio(msg.chat.id, data).then(()=>{
-      bot.sendMessage(msg.chat.id, 'Успешно загружен')
-    })
-  })
-})
+// bot.onText(/\doc1/, msg=>{
+//
+// })
 
 
+// =============================================================
+
+// bot.onText(/\/audio/, msg =>{
+//   bot.sendAudio(msg.chat.id, fs.readFileSync(__dirname + "/files/muz.mp3"))
+// })
+//
+// bot.onText(/\/audio2/, msg =>{
+//   bot.sendMessage(msg.chat.id, 'Start audio uploading ...')
+//
+//   fs.readFile(__dirname + "/files/muz.mp3", (err, data)=>{
+//     bot.sendAudio(msg.chat.id, data).then(()=>{
+//       bot.sendMessage(msg.chat.id, 'Успешно загружен')
+//     })
+//   })
+// })
 
 // =============================================================
 
