@@ -16,26 +16,80 @@ const setting = {
 
 const bot = new Telegram(TOKEN, setting)
 
-  bot.on('inline_query', (query)=>{
 
-    const results = []
-
-    for(let i=0; i<5; i++){
-      results.push({
-        type: 'article',
-        id: i.toString(),
-        title: 'Title ' + i,
-        input_message_content:{
-          message_text: `Article #${i+1}`
-        }
-      })
+const inline_keyboard = [
+  [
+    {
+      text:"Forward",
+      callback_data:"forward"
+    },
+    {
+      text:"Reply",
+      callback_data:"reply"
     }
+  ],
+  [
+    {
+      text:"Edit",
+      callback_data:"edit"
+    },
+    {
+      text:"Delete",
+      callback_data:"delete"
+    }
+  ]
+]
 
-    bot.answerInlineQuery(query.id, results, {
-      cache_time: 0
-    })
+bot.on('callback_query', (query)=>{
+  const {chat, message_id, text} = query.message
+
+  switch (query.data) {
+    case "forward":
+      // to_chat_id   - это id чата, (куда) нужно сделать репост
+      // from_chat_id - id чата, (откуда) из которого нужно сделать репост
+      // message_id   - id сообщения(не текст), которое нужно переслать
+      // === (to_chat_id, from_chat_id, message_id) ===
+      bot.forwardMessage(chat.id, chat.id, message_id)
+    break
+  }
+
+  bot.answerCallbackQuery({
+    callback_query_id: query.id
   })
+})
 
+
+bot.onText(/\/start/, (msg, [source, match])=>{
+  const chatId = msg.chat.id
+
+  bot.sendMessage(chatId, 'Keyboard', {
+    reply_markup:{
+      inline_keyboard
+    }
+  })
+})
+
+// =============================================================
+
+// bot.on('inline_query', (query)=>{
+//
+//   const results = []
+//
+//   for(let i=0; i<5; i++){
+//     results.push({
+//       type: 'article',
+//       id: i.toString(),
+//       title: 'Title ' + i,
+//       input_message_content:{
+//         message_text: `Article #${i+1}`
+//       }
+//     })
+//   }
+//
+//   bot.answerInlineQuery(query.id, results, {
+//     cache_time: 0
+//   })
+// })
 
 // =============================================================
 
