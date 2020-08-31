@@ -15,13 +15,47 @@ const setting = {
   }
 }
 
+// 381764678:TEST:18994
+
 const bot = new Telegram(TOKEN, setting)
 
-bot.onText(/\/contact/, (msg)=>{
+bot.onText(/\/pay/, msg=>{
   const chatId = msg.chat.id
 
-  bot.sendContact(chatId, '89260001123', 'name', {last_name:'lastName'})
+  bot.sendInvoice(
+    chatId,                          // chat id
+    'Audi A4',                       // title
+    'Best car ever in telegram bot', // description
+    'payload',                // payload данные не видны  пользователю
+    '381764678:TEST:18994',   // provider_token
+    'SOME_RANDOM_STRING_KEY', // start_parameter уникальный параметр
+    'RUB',                    // currency  валюта
+     [
+       {
+         label:'audi_a4',
+         amount:'30000'       // цена за товар с копейками 300р.00к.
+       }
+     ],                       // prices, массив
+     {                        // optional, не обязательно
+
+      //  photo_width: 80,
+      //  photo_height:40,
+        photo_url:'https://s1.1zoom.ru/big3/153/Audi_2015_A4_quattro_477985.jpg',
+        // need_name:true,        // чтобы обязательно было заполнено имя доставка
+        // need_shipping_address: true, // обязательно адрес доставки
+        // is_flexible: true     // цена товара менятся не будет, доставка
+     }
+  )
 })
+
+
+// =============================================================
+
+// bot.onText(/\/contact/, (msg)=>{
+//   const chatId = msg.chat.id
+//
+//   bot.sendContact(chatId, '89260001123', 'name', {last_name:'lastName'})
+// })
 
 // =============================================================
 
