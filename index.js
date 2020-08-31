@@ -19,6 +19,7 @@ const bot = new Telegram(TOKEN, setting)
 
 bot.onText(/\/loc/, (msg)=>{
   const chatId = msg.chat.id
+
   bot.sendLocation(chatId, 51.277841, 30.210990)
 })
 
