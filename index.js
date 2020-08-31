@@ -21,9 +21,17 @@ bot.onText(/\/doc1/, (msg)=>{
   bot.sendDocument(msg.chat.id, './files/document.xlsx')
 })
 
-// bot.onText(/\doc1/, msg=>{
-//
-// })
+bot.onText(/\/doc2/, msg=>{
+  bot.sendMessage(msg.chat.id, 'Загрузка началась')
+
+  fs.readFile(__dirname + "/files/document.xlsx", (err, file)=>{
+    bot.sendDocument(msg.chat.id, file, {
+      caption: 'доп.текст'
+    }).then(()=>{
+      bot.sendMessage(msg.chat.id, 'Загрузка закончилась')
+    })
+  })
+})
 
 
 // =============================================================
