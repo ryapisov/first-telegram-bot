@@ -1,6 +1,7 @@
 require('dotenv').config()
 const debug = require('./helpers')
 const Telegram = require("node-telegram-bot-api")
+const fs = require('fs')
 
 const TOKEN = process.env.TOKEN
 
@@ -16,73 +17,85 @@ const setting = {
 
 const bot = new Telegram(TOKEN, setting)
 
+bot.onText(/\/pic/, msg =>{
+  bot.sendPhoto(msg.chat.id, fs.readFileSync(__dirname + "/img/cat.jpg"))
+})
 
-const inline_keyboard = [
-  [
-    {
-      text:"Forward",
-      callback_data:"forward"
-    },
-    {
-      text:"Reply",
-      callback_data:"reply"
-    }
-  ],
-  [
-    {
-      text:"Edit",
-      callback_data:"edit"
-    },
-    {
-      text:"Delete",
-      callback_data:"delete"
-    }
-  ]
-]
-
-bot.on('callback_query', (query)=>{
-  const {chat, message_id, text} = query.message
-
-  switch (query.data) {
-    case "forward":
-      // to_chat_id   - это id чата, (куда) нужно сделать репост
-      // from_chat_id - id чата, (откуда) из которого нужно сделать репост
-      // message_id   - id сообщения(не текст), которое нужно переслать
-      // === (to_chat_id, from_chat_id, message_id) ===
-      bot.forwardMessage(chat.id, chat.id, message_id)
-    break
-    case "reply":
-      bot.sendMessage(chat.id, 'Отвечаем на сообщение',{
-        reply_to_message_id: message_id
-      })
-      break
-    case "edit":
-      bot.editMessageText(`${text} edit`, {
-        chat_id: chat.id,  // откуда взять текст
-        message_id:message_id, // id сообщения которое редактировать
-        reply_markup:{inline_keyboard}
-      })
-    break
-    case "delete":
-      bot.deleteMessage(chat.id, message_id)
-    break
-  }
-
-  bot.answerCallbackQuery({
-    callback_query_id: query.id
+bot.onText(/\/pic2/, msg =>{
+  bot.sendPhoto(msg.chat.id, "./img/cat.jpg", {
+    caption: 'This is cat photo'
   })
 })
 
 
-bot.onText(/\/start/, (msg, [source, match])=>{
-  const chatId = msg.chat.id
-
-  bot.sendMessage(chatId, 'Keyboard', {
-    reply_markup:{
-      inline_keyboard
-    }
-  })
-})
+// =============================================================
+//
+// const inline_keyboard = [
+//   [
+//     {
+//       text:"Forward",
+//       callback_data:"forward"
+//     },
+//     {
+//       text:"Reply",
+//       callback_data:"reply"
+//     }
+//   ],
+//   [
+//     {
+//       text:"Edit",
+//       callback_data:"edit"
+//     },
+//     {
+//       text:"Delete",
+//       callback_data:"delete"
+//     }
+//   ]
+// ]
+//
+// bot.on('callback_query', (query)=>{
+//   const {chat, message_id, text} = query.message
+//
+//   switch (query.data) {
+//     case "forward":
+//       // to_chat_id   - это id чата, (куда) нужно сделать репост
+//       // from_chat_id - id чата, (откуда) из которого нужно сделать репост
+//       // message_id   - id сообщения(не текст), которое нужно переслать
+//       // === (to_chat_id, from_chat_id, message_id) ===
+//       bot.forwardMessage(chat.id, chat.id, message_id)
+//     break
+//     case "reply":
+//       bot.sendMessage(chat.id, 'Отвечаем на сообщение',{
+//         reply_to_message_id: message_id
+//       })
+//       break
+//     case "edit":
+//       bot.editMessageText(`${text} edit`, {
+//         chat_id: chat.id,  // откуда взять текст
+//         message_id:message_id, // id сообщения которое редактировать
+//         reply_markup:{inline_keyboard}
+//       })
+//     break
+//     case "delete":
+//       bot.deleteMessage(chat.id, message_id)
+//     break
+//   }
+//
+//   bot.answerCallbackQuery({
+//     callback_query_id: query.id
+//   })
+// })
+//
+//
+// bot.onText(/\/start/, (msg, [source, match])=>{
+//   const chatId = msg.chat.id
+//
+//   bot.sendMessage(chatId, 'Keyboard', {
+//     reply_markup:{
+//       inline_keyboard
+//     }
+//   })
+// })
 
 // =============================================================
 
