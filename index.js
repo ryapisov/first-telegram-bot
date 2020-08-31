@@ -51,6 +51,21 @@ bot.on('callback_query', (query)=>{
       // === (to_chat_id, from_chat_id, message_id) ===
       bot.forwardMessage(chat.id, chat.id, message_id)
     break
+    case "reply":
+      bot.sendMessage(chat.id, 'Отвечаем на сообщение',{
+        reply_to_message_id: message_id
+      })
+      break
+    case "edit":
+      bot.editMessageText(`${text} edit`, {
+        chat_id: chat.id,  // откуда взять текст
+        message_id:message_id, // id сообщения которое редактировать
+        reply_markup:{inline_keyboard}
+      })
+    break
+    case "delete":
+      bot.deleteMessage(chat.id, message_id)
+    break
   }
 
   bot.answerCallbackQuery({
