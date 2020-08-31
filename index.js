@@ -17,15 +17,33 @@ const setting = {
 
 const bot = new Telegram(TOKEN, setting)
 
-bot.onText(/\/pic/, msg =>{
-  bot.sendPhoto(msg.chat.id, fs.readFileSync(__dirname + "/img/cat.jpg"))
+bot.onText(/\/audio/, msg =>{
+  bot.sendAudio(msg.chat.id, fs.readFileSync(__dirname + "/files/muz.mp3"))
 })
 
-bot.onText(/\/pic2/, msg =>{
-  bot.sendPhoto(msg.chat.id, "./img/cat.jpg", {
-    caption: 'This is cat photo'
+bot.onText(/\/audio2/, msg =>{
+  bot.sendMessage(msg.chat.id, 'Start audio uploading ...')
+
+  fs.readFile(__dirname + "/files/muz.mp3", (err, data)=>{
+    bot.sendAudio(msg.chat.id, data).then(()=>{
+      bot.sendMessage(msg.chat.id, 'Успешно загружен')
+    })
   })
 })
+
+
+
+// =============================================================
+
+// bot.onText(/\/pic/, msg =>{
+//   bot.sendPhoto(msg.chat.id, fs.readFileSync(__dirname + "/files/cat.jpg"))
+// })
+//
+// bot.onText(/\/pic2/, msg =>{
+//   bot.sendPhoto(msg.chat.id, "./files/cat.jpg", {
+//     caption: 'This is cat photo'
+//   })
+// })
 
 
 // =============================================================
